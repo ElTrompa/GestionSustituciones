@@ -7,29 +7,30 @@ public class GestorSustituciones {
     private ArrayList<Profesor> profesores;
     private File ficheroControl;
 
-    public GestorSustituciones(File ficheroControl, ArrayList<Profesor> profesores) throws IOException {
-        this.ficheroControl = ficheroControl;
-        this.profesores = profesores;
-        cargarHorarios(ficheroHorarios);
-        cargarSustitucionesPrevias();
-    }
-
-    public void cargarHorarios(String ficheroHorarios, String ficheroControlSust) throws IOException {
+    public GestorSustituciones(String ficheroHorarios, String ficheroControlSust) throws IOException {
         this.profesores = new ArrayList<>();
         this.ficheroControl = new File(ficheroControlSust);
         cargarHorarios(ficheroHorarios);
         cargarSustitucionesPrevias();
     }
 
-    private Profesor buscarOcrearProfesor(String nombre) {
-        return profesores.stream()
-                .filter(p -> p.getNombre().equals(nombre))
-                .findFirst()
-                .orElseGet(() -> {
-                    Profesor nuevo = new Profesor(nombre);
-                    profesores.add(nuevo);
-                    return nuevo;
-                });
+    private void cargarHorarios(String ficheroHorarios) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(ficheroHorarios))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (linea.trim().isEmpty()) continue;
+                String[] datos = linea.split(",");
+                if (datos.length < 4) continue;
+
+                String nombre = datos[0];
+                String dia = datos[1];
+                String hora = datos[2];
+                String grupo = datos[3];
+
+                Profesor prof = buscarOcrearProfesor(nombre);
+                prof.agregarHorario(new Horario(dia, hora, grupo));
+            }
+        }
     }
 
     private void cargarSustitucionesPrevias() throws IOException {
@@ -38,7 +39,10 @@ public class GestorSustituciones {
         try (BufferedReader br = new BufferedReader(new FileReader(ficheroControl))) {
             String linea;
             while ((linea = br.readLine()) != null) {
+                if (linea.trim().isEmpty()) continue;
                 String[] datos = linea.split(",");
+                if (datos.length < 4) continue;
+
                 String nombre = datos[0];
                 int total = Integer.parseInt(datos[3]);
                 Profesor prof = buscarOcrearProfesor(nombre);
@@ -47,6 +51,17 @@ public class GestorSustituciones {
                 }
             }
         }
+    }
+
+    private Profesor buscarOcrearProfesor(String nombre) {
+        return profesores.stream()
+                .filter(p -> p.getNombre().equals(nombre))
+                .findFirst()
+                .orElseGet(() -> {
+                    Profesor nuevo = new Profesor(nombre, new ArrayList<>(), 0);
+                    profesores.add(nuevo);
+                    return nuevo;
+                });
     }
 
     public ArrayList<Profesor> buscarSustitutos(String dia, String hora) {
