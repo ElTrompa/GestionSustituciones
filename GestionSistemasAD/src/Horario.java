@@ -32,4 +32,8 @@ public class Horario {
     public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
+
+    public boolean esLibre() {
+        return grupo.equalsIgnoreCase("Libre");
+    }
 }

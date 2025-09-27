@@ -2,12 +2,12 @@ import java.util.ArrayList;
 
 public class Profesor {
     private String nombre;
-    private ArrayList<Hoario> hoarios;
+    private ArrayList<Horario> horario;
     private int sustitucionesRealizas;
 
-    public Profesor(String nombre, ArrayList<Hoario> hoarios, int sustitucionesRealizas) {
+    public Profesor(String nombre, ArrayList<Horario> horario, int sustitucionesRealizas) {
         this.nombre = nombre;
-        this.hoarios = hoarios;
+        this.horario = horario;
         this.sustitucionesRealizas = sustitucionesRealizas;
     }
 
@@ -19,12 +19,12 @@ public class Profesor {
         this.nombre = nombre;
     }
 
-    public ArrayList<Hoario> getHoarios() {
-        return hoarios;
+    public ArrayList<Horario> getHorarios() {
+        return horario;
     }
 
-    public void setHoarios(ArrayList<Hoario> hoarios) {
-        this.hoarios = hoarios;
+    public void setHorario(ArrayList<Horario> horario) {
+        this.horario = horario;
     }
 
     public int getSustitucionesRealizas() {
@@ -33,5 +33,18 @@ public class Profesor {
 
     public void setSustitucionesRealizas(int sustitucionesRealizas) {
         this.sustitucionesRealizas = sustitucionesRealizas;
+    }
+
+    public void agregarHorario(Horario h) {
+        horario.add(h);
+    }
+
+    public void incrementarSustituciones() {
+        sustitucionesRealizas++;
+    }
+
+    @Override
+    public String toString{
+        return nombre + " (sustituciones: " + sustitucionesRealizas + ")";
     }
 }
