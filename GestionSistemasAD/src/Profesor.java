@@ -44,7 +44,7 @@ public class Profesor {
     }
 
     @Override
-    public String toString {
+    public String toString() {
         return nombre + " (sustituciones: " + sustitucionesRealizas + ")";
     }
 }
