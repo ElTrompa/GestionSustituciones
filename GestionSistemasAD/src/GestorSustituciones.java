@@ -13,5 +13,21 @@ public class GestorSustituciones {
         cargarSustitucionesPrevias();
     }
 
-    public void
+    public void cargarHorarios(String ficheroHorarios, String ficheroControlSust) throws IOException {
+        this.profesores = new ArrayList<>();
+        this.ficheroControl = new File(ficheroControlSust);
+        cargarHorarios(ficheroHorarios);
+        cargarSustitucionesPrevias();
+    }
+
+    private Profesor buscarOcrearProfesor(String nombre) {
+        return profesores.stream()
+                .filter(p -> p.getNombre().equals(nombre))
+                .findFirst()
+                .orElseGet(() -> {
+                    Profesor nuevo = new Profesor(nombre);
+                    profesores.add(nuevo);
+                    return nuevo;
+                });
+    }
 }
