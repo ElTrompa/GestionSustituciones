@@ -11,7 +11,7 @@ public class Main {
             String ausente = sc.nextLine();
             System.out.println("Introduce día de la semana:");
             String dia = sc.nextLine();
-            System.out.println("Introduce hora (ej: 2ª):");
+            System.out.println("Introduce hora (ej: 2):");
             String hora = sc.nextLine();
 
             ArrayList<Profesor> sustitutos = gestor.buscarSustitutos(dia, hora);
